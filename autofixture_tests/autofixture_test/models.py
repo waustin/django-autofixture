@@ -63,9 +63,9 @@ class BasicModel(models.Model):
     emailfield = models.EmailField()
     ipaddressfield = models.IPAddressField()
     urlfield = models.URLField()
-    rfilepathfield = models.FilePathField(path=filepath, recursive=True)
-    filepathfield = models.FilePathField(path=filepath)
-    mfilepathfield = models.FilePathField(path=filepath, match=r'^.+\.py$')
+    rfilepathfield = models.FilePathField(path=filepath, max_length=255, recursive=True)
+    filepathfield = models.FilePathField(path=filepath, max_length=255)
+    mfilepathfield = models.FilePathField(path=filepath, max_length=255, match=r'^.+\.py$')
 
 
 class UniqueTestModel(models.Model):
