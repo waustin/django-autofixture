@@ -10,7 +10,8 @@ from autofixture_tests.autofixture_test.models import y2k
 from autofixture_tests.autofixture_test.models import (
     SimpleModel, OtherSimpleModel, DeepLinkModel1, DeepLinkModel2,
     NullableFKModel, BasicModel, UniqueTestModel, UniqueTogetherTestModel,
-    RelatedModel, O2OModel, M2MModel, ThroughModel, M2MModelThrough) 
+    RelatedModel, O2OModel, M2MModel, ThroughModel, M2MModelThrough,
+    GenericRelation) 
 
 
 class SimpleAutoFixture(AutoFixture):
@@ -242,6 +243,13 @@ class TestRelations(TestCase):
             all_m2m.update(obj.m2m.all())
         self.assertEqual(SimpleModel.objects.count(), len(all_m2m))
 
+    def test_generate_generic_relation_with_intermediary_model(self):
+        filler = AutoFixture(
+                GenericRelation,
+                generate_m2m=(1, 5))
+        all_generics = set()
+        for obj in filler.create(10):
+            self.assertTrue(1 <= obj.tags.count() <= 5)
 
 class TestUniqueConstraints(TestCase):
     def test_unique_field(self):

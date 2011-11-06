@@ -2,6 +2,8 @@
 import os
 from datetime import datetime
 from django.db import models
+from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.models import ContentType
 
 
 filepath = os.path.dirname(os.path.abspath(__file__))
@@ -107,3 +109,14 @@ class ThroughModel(models.Model):
 class M2MModelThrough(models.Model):
     m2m = models.ManyToManyField(SimpleModel, related_name='m2mthrough_rel1',
         through=ThroughModel)
+
+class TaggedItem(models.Model):
+    name = models.CharField(max_length=30)
+    content_type = models.ForeignKey(ContentType, verbose_name='content type')
+    object_id = models.PositiveIntegerField('object id', db_index=True)
+    object = generic.GenericForeignKey('content_type', 'object_id')
+
+class GenericRelation(models.Model):
+    tags = generic.GenericRelation(TaggedItem,
+            content_type_field='content_type',
+            object_id_field='object_id')

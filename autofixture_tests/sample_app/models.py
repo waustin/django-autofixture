@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 
-
 class Author(models.Model):
     name = models.CharField(max_length=50)
 
@@ -11,7 +10,6 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
-
 
 class Post(models.Model):
     name = models.CharField(max_length=50)
